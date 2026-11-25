@@ -12,7 +12,7 @@ The templates here are the source for the template catalog on nuphos.ai and the 
 
 ## Use a template
 
-The template picker in the Nuphos app and the catalog on nuphos.ai are coming soon. Until then, the files here show exactly what each template imports.
+In the Nuphos app, choose **New Bot** and then **Start from a template**. The app reads the templates from this repository, so a template merged here shows up without an app update.
 
 Templates never turn anything on for you. Routines are imported switched off, and a template only lists the integrations it can use, with the reason for each.
 
@@ -22,6 +22,7 @@ Templates never turn anything on for you. Routines are imported switched off, an
 templates/<id>/
   manifest.json   The Bot itself, in the Nuphos bot bundle format
   template.json   How the catalog shows it: author, category, avatar, summary, examples
+catalog.json      Every template's card in one file, generated from the folders
 scripts/
   validate.mjs    Checks every template (run with `node scripts/validate.mjs`)
 ```
@@ -33,6 +34,8 @@ scripts/
 - `bots` holds exactly one Bot with its `name`, `instructions`, `greeting` and `schedules`
 
 `template.json` holds what the catalog shows and is never imported.
+
+`catalog.json` is what the Nuphos app and nuphos.ai read. Do not edit it by hand: run `node scripts/validate.mjs --write` after changing a template, and commit the result.
 
 ## Contribute
 

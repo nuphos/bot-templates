@@ -25,7 +25,7 @@ One pull request adds or changes one template.
    - `avatar` is one of the built-in avatars listed below
    - `summary` is one sentence of up to 140 characters
    - `highlights` and `examples` each have two to five lines
-4. Run `node scripts/validate.mjs` (Node 20 or later) and fix anything it reports.
+4. Run `node scripts/validate.mjs --write` (Node 20 or later), fix anything it reports, and commit the updated `catalog.json`.
 5. Open a pull request and fill in the checklist.
 
 To change an existing template, bump `source.version`: patch for wording, minor for new behavior or routines, major when it would surprise people who already use it.

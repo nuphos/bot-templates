@@ -2,11 +2,13 @@
 // Validates every template in templates/. No dependencies; needs Node 20+.
 // The rules mirror the Nuphos bot bundle schema for templates, plus catalog
 // rules that only apply to this repository.
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const TEMPLATES = join(ROOT, 'templates');
+const CATALOG = join(ROOT, 'catalog.json');
+const WRITE = process.argv.includes('--write');
 
 const KEY = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SEMVER = /^\d+\.\d+\.\d+$/;
@@ -163,6 +165,11 @@ function validateCatalog(id, meta) {
   }
 }
 
+// catalog.json lists every template the way the Nuphos app and nuphos.ai show it,
+// so they can read one file instead of every folder. It is generated from the
+// folders: run `node scripts/validate.mjs --write` after changing a template.
+const catalog = [];
+
 const ids = readdirSync(TEMPLATES).filter((name) => statSync(join(TEMPLATES, name)).isDirectory()).sort();
 for (const id of ids) {
   check(id, KEY.test(id) && id.length <= 64, 'folder name must be kebab-case');
@@ -180,7 +187,26 @@ for (const id of ids) {
   const meta = readJson(id, metaPath);
   if (manifest) validateManifest(id, manifest);
   if (meta) validateCatalog(id, meta);
+  if (manifest && meta) {
+    catalog.push({
+      id,
+      version: manifest.source?.version,
+      name: manifest.bots?.[0]?.name,
+      ...meta,
+      requirements: manifest.requirements ?? [],
+    });
+  }
 }
+
+const catalogText = `${JSON.stringify({ templates: catalog }, null, 2)}\n`;
+if (WRITE && !failures) writeFileSync(CATALOG, catalogText);
+let current = '';
+try {
+  current = readFileSync(CATALOG, 'utf8');
+} catch {
+  // Reported below as out of date.
+}
+check('catalog.json', current === catalogText, 'is out of date; run `node scripts/validate.mjs --write`');
 
 if (failures) {
   console.error(`\n${failures} problem(s) in ${ids.length} template(s).`);

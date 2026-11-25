@@ -5,7 +5,7 @@
 ## Checklist
 
 - [ ] One template per pull request
-- [ ] `node scripts/validate.mjs` passes
+- [ ] `node scripts/validate.mjs --write` passes and `catalog.json` is committed
 - [ ] `source.version` is `1.0.0` for a new template, or bumped for a change
 - [ ] No secrets, internal URLs or personal data
 - [ ] Routines ship switched off (`requestedEnabled: false`)
