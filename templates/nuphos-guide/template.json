@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "Nuphos",
+    "github": "nuphos"
+  },
+  "official": true,
+  "category": "Getting started",
+  "avatar": "14-napoleon.svg",
+  "summary": "Your first Bot. It shows you around Nuphos, helps you connect your tools and sets up the Bots you need.",
+  "highlights": [
+    "Explains Bots, Tasks, the Inbox, Triggers and teams in plain language",
+    "Helps your Bots keep working: connect your own Claude or ChatGPT, your own computer, or a plan from Nuphos",
+    "Walks you through connecting Notion, Slack, GitHub or another tool, one step at a time",
+    "Suggests a first Bot for the work you describe and helps you set it up"
+  ],
+  "examples": [
+    "What can a Bot do for me?",
+    "How do I use my own Claude or ChatGPT subscription?",
+    "Help me connect Notion.",
+    "Set up a Bot that sends me a short news briefing every morning."
+  ],
+  "featured": true
+}
